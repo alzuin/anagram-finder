@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row">
+    <div class="twelve columns">
+      <h1>Anagram Finder</h1>
+    </div>
+  </div>
+
+  <% flash.each do |name, msg| %>
+    <div class="row">
+      <div class="twelve columns">
+        <%= content_tag :div, msg, class: name %>
+      </div>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <%= form_for :anagram, url: anagrams_path(:anagram), method: :post  do |f| %>
+    <div class="row">
+      <div class="eight columns">
+        <%=f.file_field :file %>
+      </div>
+      <div class="four columns">
+        <%=f.submit 'load new dictionary' %>
+      </div>
+    </div>
+
+  <% end %>
+
+  <% unless $anagram.file.nil? %>
+    <div class="row">
+      <div class="twelve columns">
+        <%=$anagram.file%> loaded in <%=@time%>
+      </div>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <div class="row">
+    <div class="twelve columns">
+      <p>Enter a word to search for anagram</p>
+    </div>
+  </div>
+
+
+  <%= form_for :anagram, url: anagram_path(:anagram), method: :get  do |f| %>
+    <div class="row">
+      <div class="eight columns">
+        <%=f.text_field :word %>
+      </div>
+      <div class="four columns">
+        <%=f.submit 'Go' %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve columns">
+        <%=f.text_area :messages, value: $anagram.messages, class: 'u-full-width', readonly: true %>
+      </div>
+    </div>
+  <% end %>
+</div>
