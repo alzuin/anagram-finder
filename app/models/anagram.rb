@@ -13,12 +13,11 @@ class Anagram
   # * time_file: is the time for reading and processing the file
   # * word_hash: is the hash where we store the anagrams (after the upload)
   # * messages: is the lines of message inside the text area
-  attr_accessor :file, :time_file, :words_hash, :messages
+  attr_accessor :file, :time_file, :words_hash
 
   # We initialize word_hash as an Hash and messages as a string
   def initialize
     self.words_hash = {}
-    self.messages = ''
   end
 
   # Function to populate the hash with all the anagrams.
@@ -38,24 +37,6 @@ class Anagram
   # I tried more than one, just to find the better option
   def create_index(word)
     create_index1(word)
-  end
-
-  # Function to add the message to the text area
-  # I prefer to add the last message on top and not at the end
-  # because it's easy to read it
-  def add_message(anagrams,word,total)
-    # First: date and time for the search
-    new_messages = "#{Time.now}\n"
-    if anagrams.nil? or anagrams.count == 0
-      # No anagram found
-      new_messages += "0 anagrams found for #{word}\n\n"
-    else
-      # we have one or more anagrams
-      new_messages +="#{anagrams.count} anagrams found for '#{word}' in #{(total.real*1000).round(3)} ms\n"
-      new_messages += "> #{anagrams.join(', ')}\n\n"
-    end
-    # Add the message at the top
-    self.messages = new_messages + self.messages
   end
 
   private

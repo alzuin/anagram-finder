@@ -11,6 +11,9 @@ class AnagramsController < ApplicationController
         @time = ($anagram.time_file.real).round(2).to_s + ' sec'
       end
     end
+
+    @messages = session[:tmp_messages]
+    session[:tmp_message] = nil
   end
 
   # Here we handle the upload and process of the file
@@ -35,7 +38,14 @@ class AnagramsController < ApplicationController
   # Word search
   def show
     # First we downcase the word and initialize the anagrams array
-    word = params[:id].downcase || params[:anagram][:word].downcase
+    if params[:anagram].nil?
+      word = params[:id].downcase
+      old_messages = ''
+    else
+      word = params[:anagram][:word].downcase
+      old_messages = params[:anagram][:messages]
+    end
+
     anagrams =[]
     # Get the array of words from the hash
     total = Benchmark.measure do
@@ -44,13 +54,33 @@ class AnagramsController < ApplicationController
     # Respond to html with a redirect and json
     respond_to do |format|
       format.html do
-        # Add the message for the text area
-        $anagram.add_message(anagrams,word,total)
+        # Add the message for the text area and store it in a temporary session
+        session[:tmp_messages] = add_message(anagrams,word,total,old_messages)
         redirect_to root_url
       end
       format.json do
         render json: {word: word, anagrams: anagrams, total: total}
       end
     end
+  end
+
+  private
+
+  # Function to add the message to the text area
+  # I prefer to add the last message on top and not at the end
+  # because it's easy to read it
+  def add_message(anagrams,word,total,messages)
+    # First: date and time for the search
+    new_messages = "#{Time.now}\n"
+    if anagrams.nil? or anagrams.count == 0
+      # No anagram found
+      new_messages += "0 anagrams found for #{word}\n\n"
+    else
+      # we have one or more anagrams
+      new_messages +="#{anagrams.count} anagrams found for '#{word}' in #{(total.real*1000).round(3)} ms\n"
+      new_messages += "> #{anagrams.join(', ')}\n\n"
+    end
+    # Add the message at the top
+    new_messages + messages.to_s
   end
 end

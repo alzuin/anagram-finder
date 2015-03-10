@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Anagram, :type => :model do
+  it 'populate the hash with empty content' do
+    $anagram.populate('')
+    $anagram.words_hash.count.should == 0
+  end
   it 'populate the hash' do
     $anagram.populate("test\nstop\npots\nopts\ntops\nbad\ndab")
     $anagram.words_hash.count.should > 0

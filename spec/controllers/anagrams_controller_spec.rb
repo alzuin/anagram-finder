@@ -14,10 +14,15 @@ RSpec.describe AnagramsController, :type => :controller do
     end
   end
 
-  describe "GET create" do
+  describe "POST create" do
     it "returns http success" do
-      get :create
+      post :create
       expect(response).to be_success
+    end
+    it "can upload the dictionary" do
+      @file = fixture_file_upload('files/dictionary.txt', 'text/plain')
+      post :create, anagram: {file: @file}
+      $anagram.words_hash.count.should > 0
     end
   end
 
