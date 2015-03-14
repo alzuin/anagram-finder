@@ -13,10 +13,11 @@ class Anagram
   # * time_file: is the time for reading and processing the file
   # * word_hash: is the hash where we store the anagrams (after the upload)
   # * messages: is the lines of message inside the text area
-  attr_accessor :file, :time_file, :words_hash
+  attr_accessor :file_name, :time_file, :words_hash
 
   # We initialize word_hash as an Hash and messages as a string
   def initialize
+    self.file_name = nil
     self.words_hash = {}
   end
 

@@ -1,0 +1,7 @@
+<% flash.each do |name, msg| %>
+  <div class="row">
+    <div class="twelve columns">
+      <%= content_tag :div, msg, class: name %>
+    </div>
+  </div>
+<% end %>

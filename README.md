@@ -1,6 +1,7 @@
 # Anagram finder
 ## Alberto Zuin
 
+
 The basic idea behind my application is to create an hash of words with a common key between all words that are anagrams.
 In this way, the bigger part of the time is spent one time during the dictionary file upload (and parsing), but the search phase will run fast.
 Using this approach, also, the persistent database is not really needed: I found online a dictionary of 320,000 words, it is a file of about 3.5MB, so it is possible to store it in RAM on a decent computer without any big problem.
@@ -31,5 +32,3 @@ Going in production: really I don't think that with this code we are very far fr
 The speed of the queries are also very impressive (0.020 ms on my PC regardless of the size of the word and the amount of anagrams found) so I think we are very far from the need to scale up our system in horizontal.
 In any case, if we want to do that for exercise, the only thing we need is to share the hash between our pool of application servers, and to share the session with the message for the text area. All the two things can be achieved without any problem using Redis or Memcached which are RAM only database that can be "clustered" in multiple application servers.
 In my opinion, the use a persistent database (SQL like MySQL or NoSQL like MongoDB) and a cache system like Memcached over it for this kind of application is not useful also in production because the amount of data is too small.
-
-To code the application I spent two afternoons, about 8 hours of work. If we want to convert the hash in a redis storage, probably additional 3-4 hours of works are needed.

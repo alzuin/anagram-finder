@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="twelve columns">
+    <p>Enter a word to search for anagram</p>
+  </div>
+</div>
+
+
+<%= form_for :anagram, url: anagram_path(:anagram), method: :get  do |f| %>
+  <div class="row">
+    <div class="eight columns">
+      <%=f.text_field :word %>
+    </div>
+    <div class="four columns">
+      <%=f.submit 'Go' %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="twelve columns">
+      <%=f.text_area :messages, value: @messages, class: 'u-full-width', readonly: true %>
+    </div>
+  </div>
+<% end %>

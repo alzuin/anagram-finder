@@ -1,0 +1,19 @@
+<%= form_for :anagram, url: anagrams_path(:anagram), method: :post  do |f| %>
+  <div class="row">
+    <div class="eight columns">
+      <%=f.file_field :file %>
+    </div>
+    <div class="four columns">
+      <%=f.submit 'load new dictionary' %>
+    </div>
+  </div>
+
+<% end %>
+
+<% unless $anagram.file_name.nil? %>
+  <div class="row">
+    <div class="twelve columns">
+      <%=$anagram.file_name%> loaded in <%=@time%>
+    </div>
+  </div>
+<% end %>

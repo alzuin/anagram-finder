@@ -24,12 +24,11 @@ class AnagramsController < ApplicationController
       render :index
     else
       $anagram.time_file = Benchmark.measure do
-        # We read the file in ram
-        $anagram.file = params[:anagram][:file]
-        # We populate the hash
-        $anagram.populate($anagram.file.read)
-        # Last we reset the $anagram.file global variable only with the filename to free some RAM
-        $anagram.file = $anagram.file.original_filename
+        # We populate the hash reading the file in RAM
+        $anagram.populate(params[:anagram][:file].read)
+        # Last we reset the $anagram.file_name global variable only with the filename to free some RAM
+        $anagram.file_name = params[:anagram][:file].original_filename
+        # Free
       end
       redirect_to root_url
     end
